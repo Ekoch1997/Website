@@ -1,4 +1,3 @@
-# Website
-Collection of JavaScript projects
+# p5.js-templates
 
-This is very much a work in progress. Many of the projects hosted here are from The Coding Train (https://www.youtube.com/c/TheCodingTrain). Check him out!
+p5.js templates for ID311 Software Prototyping.
