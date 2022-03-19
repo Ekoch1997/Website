@@ -1,6 +1,6 @@
 
 let grid;
-let spacing = 200;
+let spacing = 5;
 let cols,rows;
 let path = [];
 let spot;

@@ -1,4 +1,3 @@
-
 function make2DArray(cols,rows){
     var arr = new Array(cols);
     for (var i = 0; i < arr.length; i++){
@@ -12,8 +11,7 @@ var grid;
 var cols;
 var rows;
 var w = 20;
-
-var totalbombs = 10;
+var aliveStart = 500;
 
 function setup (){
     var style = canvas.style;
@@ -22,7 +20,7 @@ function setup (){
     style.marginTop = "2%";
     var parentStyle = canvas.parentElement.style;
     parentStyle.width = "100%";
-    createCanvas (200, 200);
+    createCanvas (600, 600);
     cols = floor(width / w);
     rows = floor(height / w);
     grid = make2DArray(cols,rows);
@@ -32,14 +30,14 @@ function setup (){
         }
     }
 
-    //Pick totalbombs spots
+    //Pick alive spots
     var options = [];
     for(var i = 0; i< cols; i++){
         for(var j = 0; j<rows;j++){
             options.push([i,j])
         }
     }
-    for (var n = 0; n < totalbombs; n++){
+    for (var n = 0; n < aliveStart; n++){
         var index = floor(random(options.length))
         var choice = options[index];
 
@@ -48,37 +46,15 @@ function setup (){
 
         //Delete the spot so it's no longer an option
         options.splice(index,1);
-        grid[i][j].bomb = true;
-    }
-
-
-
-
-    for(var i = 0; i< cols; i++){
-        for(var j = 0; j<rows;j++){
-            grid[i][j].countNeighbors();
-        }
+        grid[i][j].nextState = true;
     }
   }
-
-function gameOver(){
-    for(var i = 0; i< cols; i++){
-        for(var j = 0; j<rows;j++){
-            grid[i][j].revealed = true;
-        }
-    }
-}
 
 function mousePressed(){
     for(var i = 0; i< cols; i++){
         for(var j = 0; j<rows;j++){
             if (grid[i][j].contains(mouseX,mouseY)){
-                grid[i][j].reveal();
-                if (grid[i][j].bomb){
-                    var audio = new Audio('Bomb.mp3');
-                    audio.play();
-                    gameOver();
-                }
+                grid[i][j].nextState = true;
             }
 
             
@@ -87,10 +63,16 @@ function mousePressed(){
 }
   
 function draw(){
+    frameRate(1);
     background(255);
     for(var i = 0; i< cols; i++){
         for(var j = 0; j<rows;j++){
-            grid[i][j].show()
+            grid[i][j].showCurrentState()
+        }
+    }
+    for(var i = 0; i< cols; i++){
+        for(var j = 0; j<rows;j++){
+            grid[i][j].setNextState()
         }
     }
 }
