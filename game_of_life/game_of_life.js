@@ -10,8 +10,8 @@ function make2DArray(cols,rows){
 var grid;
 var cols;
 var rows;
-var w = 20;
-var aliveStart = 500;
+var w = 10;
+var aliveStartPct = 0.05;
 
 function setup (){
     var style = canvas.style;
@@ -20,7 +20,7 @@ function setup (){
     style.marginTop = "2%";
     var parentStyle = canvas.parentElement.style;
     parentStyle.width = "100%";
-    createCanvas (600, 600);
+    createCanvas (1200, 800);
     cols = floor(width / w);
     rows = floor(height / w);
     grid = make2DArray(cols,rows);
@@ -37,6 +37,7 @@ function setup (){
             options.push([i,j])
         }
     }
+    var aliveStart = floor(cols * rows * aliveStartPct)
     for (var n = 0; n < aliveStart; n++){
         var index = floor(random(options.length))
         var choice = options[index];
@@ -54,7 +55,14 @@ function mousePressed(){
     for(var i = 0; i< cols; i++){
         for(var j = 0; j<rows;j++){
             if (grid[i][j].contains(mouseX,mouseY)){
-                grid[i][j].nextState = true;
+                if(grid[i][j].currentState){
+                    grid[i][j].nextState = false;
+                }
+                else{
+                    grid[i][j].nextState = true;
+                }
+                
+                grid[i][j].showCurrentState();
             }
 
             
@@ -63,7 +71,7 @@ function mousePressed(){
 }
   
 function draw(){
-    frameRate(1);
+    frameRate(5);
     background(255);
     for(var i = 0; i< cols; i++){
         for(var j = 0; j<rows;j++){
@@ -75,4 +83,30 @@ function draw(){
             grid[i][j].setNextState()
         }
     }
+}
+
+
+function clearBoard(){
+    for(var i = 0; i< cols; i++){
+        for(var j = 0; j<rows;j++){
+            grid[i][j].nextState = false;
+        }
+    }
+    this.pauseBoard();
+}
+
+function pauseBoard(){
+    noLoop();
+}
+
+function startBoard(){
+    loop();
+}
+
+function randomizeBoard(fillPct){
+    this.clearBoard();
+    aliveStartPct = fillPct / 100;
+    loop();
+    
+    this.setup();
 }

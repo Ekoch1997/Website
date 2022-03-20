@@ -19,7 +19,31 @@
 </head>
 
 <body>
-  <button onclick="start()">Reset</button>
+  <button onclick="startBoard()">Start</button>
+  <button onclick="clearBoard()">Clear</button>
+  <button onclick="pauseBoard()">Pause</button>
+  <form action="#">
+    <input type="text" name="fillPct" id="fillPct" maxlength="3" size="3">
+    <button type="button" onclick="randomizeBoard();"> Randomize </button>
+  </form>
+
+<script>
+  function randomizeBoard(){
+
+    this.clearBoard();
+    aliveStartPct = document.getElementById("fillPct").value / 100;
+    loop();
+    
+    this.setup();
+  }
+</script>
+
+<style>
+  form {
+    display: inline-block;
+  }
+</style>
+
 </body>
 
 </html>

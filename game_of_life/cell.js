@@ -11,7 +11,7 @@ function Cell(i,j,w){
 Cell.prototype.showCurrentState = function(){
 
     this.currentState = this.nextState
-    stroke(0);
+    stroke(25);
     fill(0);
     rect(this.x, this.y, this.w, this.w);
     if(this.currentState){
